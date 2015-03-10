@@ -357,9 +357,11 @@ void diskEjected(DADiskRef disk, DADissenterRef dissenter, void *context)
         CFDictionaryRef diskDescription = DADiskCopyDescription(disk);
         CFRelease(disk);
 
-        NSDictionary *properties =
-            [self propertiesForDAProperties:(__bridge NSDictionary*)diskDescription];
-        CFRelease(diskDescription);
+        NSDictionary *properties;
+        if (diskDescription) {
+            properties = [self propertiesForDAProperties:(__bridge NSDictionary*)diskDescription];
+            CFRelease(diskDescription);
+        }
 
         return properties;
     }
